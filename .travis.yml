@@ -1,0 +1,25 @@
+language: python
+
+matrix:
+  include:
+    - python: 3.6
+      env: TOXENV=py,codecov
+    - python: 3.5
+      env: TOXENV=py,codecov
+    - python: 3.4
+      env: TOXENV=py,codecov
+    - python: 2.7
+      env: TOXENV=py,codecov
+    - python: pypy
+      env: TOXENV=py,codecov
+    - python: nightly
+      env: TOXENV=py
+
+install:
+  - pip install tox
+
+script:
+  - tox
+
+cache:
+  - pip

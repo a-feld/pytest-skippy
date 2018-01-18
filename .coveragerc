@@ -1,0 +1,11 @@
+[run]
+branch = True
+source =
+    autoskip
+    tests
+
+[paths]
+source =
+    autoskip
+    .tox/*/lib/python*/site-packages/autoskip
+    .tox/pypy/site-packages/autoskip
