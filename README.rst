@@ -1,3 +1,8 @@
+.. image:: https://travis-ci.org/a-feld/pytest-autoskip.svg?branch=master
+    :target: https://travis-ci.org/a-feld/pytest-autoskip
+.. image:: https://codecov.io/gh/a-feld/pytest-autoskip/branch/master/graph/badge.svg
+  :target: https://codecov.io/gh/a-feld/pytest-autoskip
+
 ***************
 PyTest Autoskip
 ***************
@@ -20,4 +25,4 @@ Example::
     py.test --autoskip --autoskip-target-branch origin/master
 
 * docs: 
-* repository: 
+* repository: https://github.com/a-feld/pytest-autoskip
