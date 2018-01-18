@@ -1,3 +1,5 @@
+.. image:: https://img.shields.io/pypi/v/pytest-autoskip.svg
+   :target: https://pypi.org/project/pytest-autoskip/
 .. image:: https://readthedocs.org/projects/pytest-autoskip/badge/?version=latest
     :target: https://pytest-autoskip.readthedocs.io/en/latest/?badge=latest
 .. image:: https://travis-ci.org/a-feld/pytest-autoskip.svg?branch=master
