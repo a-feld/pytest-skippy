@@ -1,7 +1,9 @@
+.. image:: https://readthedocs.org/projects/pytest-autoskip/badge/?version=latest
+    :target: http://pytest-autoskip.readthedocs.io/en/latest/?badge=latest
 .. image:: https://travis-ci.org/a-feld/pytest-autoskip.svg?branch=master
     :target: https://travis-ci.org/a-feld/pytest-autoskip
 .. image:: https://codecov.io/gh/a-feld/pytest-autoskip/branch/master/graph/badge.svg
-  :target: https://codecov.io/gh/a-feld/pytest-autoskip
+    :target: https://codecov.io/gh/a-feld/pytest-autoskip
 
 ***************
 PyTest Autoskip
