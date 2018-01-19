@@ -40,7 +40,7 @@ setup(
     name='pytest-autoskip',
     setup_requires=['setuptools_scm'],
     use_scm_version={'write_to': 'autoskip/_version.py'},
-    description='Pytest plugin to prune unchanged tests.'
+    description="Automatically skip tests that don't need to run!",
     long_description=long_description,
     license='MIT',
     url='https://github.com/a-feld/pytest-autoskip',
