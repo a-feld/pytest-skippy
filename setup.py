@@ -38,8 +38,9 @@ class Tox(TestCommand):
 
 setup(
     name='pytest-autoskip',
-    version='0.1.0',
-    description='Pytest plugin to prune unchanged tests.',
+    setup_requires=['setuptools_scm'],
+    use_scm_version={'write_to': 'autoskip/_version.py'},
+    description='Pytest plugin to prune unchanged tests.'
     long_description=long_description,
     license='MIT',
     url='https://github.com/a-feld/pytest-autoskip',
