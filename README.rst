@@ -17,6 +17,13 @@ This library works with pytest to generate a complete import graph for your
 tests. If nothing in the import graph has changed (according to GIT), the test
 is skipped.
 
+Installation
+############
+
+.. code:: bash
+
+    pip install pytest-autoskip
+
 Usage
 ######
 
