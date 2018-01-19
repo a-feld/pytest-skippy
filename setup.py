@@ -19,7 +19,6 @@ dev_requirements = test_requirements + [
         'flake8',
         'coverage',
         'gitpython',
-        'bumpversion',
         'sphinx',
         'sphinx_rtd_theme',
 ]
