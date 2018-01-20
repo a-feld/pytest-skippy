@@ -1,3 +1,6 @@
+from collections import deque
+
+
 def flatten_imports(imported_module, import_tree):
     """Returns a set of all modules imported by imported_module
 
@@ -22,10 +25,10 @@ def flatten_imports(imported_module, import_tree):
     flat_imports = {imported_module}
 
     # get all the modules that import "imported_module"
-    to_traverse = set(import_tree[imported_module])
+    to_traverse = deque(import_tree[imported_module])
 
     while to_traverse:
-        module = to_traverse.pop()
+        module = to_traverse.popleft()
 
         # if we've already visited the node, continue
         if module in flat_imports:
@@ -34,6 +37,6 @@ def flatten_imports(imported_module, import_tree):
         flat_imports.add(module)
 
         # add next traversal level
-        to_traverse |= import_tree[module]
+        to_traverse.extend(import_tree[module])
 
     return flat_imports
