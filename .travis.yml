@@ -1,5 +1,8 @@
 language: python
-
+env:
+  global:
+    # TWINE_PASSWORD:
+    secure: bLAuBFumerUXLWpRZrfd7IggW7R5LKWEJKJvMgmcaaiAL/lIn6QFCQ16EoOrfKhH3znnHcSVztORGeBHPlVfwRJ7UW0PUgWSASioW49QFdeKV2GDPklPRAVcsRFseyjGqoi9WYbKJe+dGQAK8A+YaCItOrUyWycEXMsNiDFvAip9xRAtDeZPMnSgzg2tYRNPrve3ovfah6b9UYvbkV1wP2ioowejvvV7igAZjmlV5RqAfCupkZ+b+ffv6SSuADm7+HEUiwwlP5cSDPceCTdL5pA3aixyqRWxN3qzI7wPqh3v4/5CB9t0BCNLu/yCxwKC03TUw5x6Nk3qTf9YxXL07gKJruWwKDFZzNZzgTvcjv38/+moK9aRO8YMURUgmKmG6pY4V8H0xzulgLhzENt/t8qvhFMIGoOVSjCBTFuew0p4emTGphzyhmUvzV+vsh13OiDrboBRPkZHKnK07RSyqCb02W+hxq70rI4AxvHOabW4qH5c8MKyi9eAXo0uNmovhDF01t1dwpmvlpbljEpoBNIzhgds/KfiY/aing6qRwM2NoiqnPJEY3rdlbRcFTfP+hi6pk59pVHojoPS1Vn2HWfm+iQGWQbYnkDyb06zpcnpNRizZibs7NYRJm/uLpvMTbVGINjywKtt0CquKXZv05Tmf1uV+DzT/kJ4P7tF6DA=
 matrix:
   include:
     - python: 3.6
@@ -25,3 +28,11 @@ script:
 
 cache:
   - pip
+
+deploy:
+  provider: script
+  script: .ci/travis-release.sh
+  on:
+    branch: master
+    tags: true
+    python: 3.6
