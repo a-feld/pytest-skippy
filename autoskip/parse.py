@@ -69,17 +69,17 @@ def get_imported_modules(filename):
     For example:
 
     >>> import tempfile
-    >>> with tempfile.NamedTemporaryFile() as f:
+    >>> with tempfile.NamedTemporaryFile(delete=False) as f:
     ...     x = f.write(b'''
     ... import os
     ...
     ... def inner():
     ...    import re
     ... ''')
-    ...     f.file.flush()
-    ...     modules, _ = get_imported_modules(f.name)
-    ...     print(sorted([m for m in modules]))
+    >>> modules, _ = get_imported_modules(f.name)
+    >>> print(sorted([m for m in modules]))
     ['os', 're']
+    >>> import os ; os.unlink(f.name)
 
 
     :param filename: File path to a python file
