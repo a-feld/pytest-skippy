@@ -1,3 +1,4 @@
+import os
 import pytest
 import tempfile as _tempfile
 from autoskip.parse import get_imported_modules
@@ -5,12 +6,23 @@ from autoskip.parse import get_imported_modules
 
 @pytest.fixture()
 def tempfile():
-    with _tempfile.NamedTemporaryFile() as f:
-        def write(value):
+
+    def write(value):
+        if getattr(write, 'name', None):
+            raise RuntimeError(
+                    "Write called more than once")  # pragma: no cover
+
+        with _tempfile.NamedTemporaryFile(delete=False) as f:
             f.write(value)
-            f.file.flush()
+
         write.name = f.name
-        yield write
+
+    yield write
+
+    try:
+        os.unlink(write.name)
+    except AttributeError:  # pragma: no cover
+        pass  # pragma: no cover
 
 
 def test_basic_import_module(tempfile):
