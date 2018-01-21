@@ -34,9 +34,10 @@ def test_builtin_module():
 def test_file_with_syntax_error():
     import os
     import sys
-    with tempfile.NamedTemporaryFile(suffix='.py') as f:
+    with tempfile.NamedTemporaryFile(suffix='.py', delete=False) as f:
         f.write(b"World's best program")
-        f.file.flush()
+
+    try:
         filename = os.path.realpath(f.name)
         d = os.path.dirname(f.name)
         sys.path.append(d)
@@ -44,4 +45,6 @@ def test_file_with_syntax_error():
         mod_name = os.path.basename(filename)[:-3]
         result = imp.convert_module_to_filename(mod_name)
 
-    assert result == filename
+        assert result == filename
+    finally:
+        os.unlink(f.name)
