@@ -17,8 +17,16 @@ matrix:
       env: TOXENV=py,codecov
     - python: nightly
       env: TOXENV=py
+
+    - stage: deploy
+      python: 3.6
+      script: .ci/travis-release.sh
   allow_failures:
     - python: nightly
+
+stages:
+  - name: deploy
+    if: branch = master AND tag
 
 install:
   - pip install tox
