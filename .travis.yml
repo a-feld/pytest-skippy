@@ -25,6 +25,7 @@ jobs:
     - python: nightly
 
 stages:
+  - test
   - name: deploy
     if: branch = master AND tag
 
