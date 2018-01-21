@@ -27,7 +27,7 @@ jobs:
 stages:
   - test
   - name: deploy
-    if: branch = master AND tag
+    if: tag IS present
 
 install:
   - pip install tox
