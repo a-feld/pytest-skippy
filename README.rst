@@ -13,9 +13,16 @@ PyTest Autoskip
 
 Automatically skip tests that don't need to run!
 
-This library works with pytest to generate a complete import graph for your
-tests. If nothing in the import graph has changed (according to GIT), the test
-is skipped.
+Most tests that are run on a pull request don't actually exercise the changes
+that are made. By running all tests (even if those tests are not relevant), the
+test suite takes longer to complete and more machines may be needed to
+parallelize tests to cut down on test time.
+
+*pytest-autoskip* detects which tests don't need to run by generating a
+complete import graph for your tests. If nothing in the import graph has
+changed (according to GIT), the test is skipped! This approach saves time
+(getting you test results faster) and money (using less machines for parallel
+builds)!
 
 Installation
 ############
