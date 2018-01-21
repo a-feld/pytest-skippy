@@ -4,6 +4,8 @@
     :target: https://pytest-autoskip.readthedocs.io/en/latest/?badge=latest
 .. image:: https://travis-ci.org/a-feld/pytest-autoskip.svg?branch=master
     :target: https://travis-ci.org/a-feld/pytest-autoskip
+.. image:: https://ci.appveyor.com/api/projects/status/github/a-feld/pytest-autoskip?svg=true
+    :target: https://ci.appveyor.com/project/a-feld/pytest-autoskip/branch/master
 .. image:: https://codecov.io/gh/a-feld/pytest-autoskip/branch/master/graph/badge.svg
     :target: https://codecov.io/gh/a-feld/pytest-autoskip
 
