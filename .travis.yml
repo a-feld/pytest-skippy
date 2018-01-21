@@ -1,9 +1,6 @@
 language: python
-env:
-  global:
-    # TWINE_PASSWORD:
-    secure: bLAuBFumerUXLWpRZrfd7IggW7R5LKWEJKJvMgmcaaiAL/lIn6QFCQ16EoOrfKhH3znnHcSVztORGeBHPlVfwRJ7UW0PUgWSASioW49QFdeKV2GDPklPRAVcsRFseyjGqoi9WYbKJe+dGQAK8A+YaCItOrUyWycEXMsNiDFvAip9xRAtDeZPMnSgzg2tYRNPrve3ovfah6b9UYvbkV1wP2ioowejvvV7igAZjmlV5RqAfCupkZ+b+ffv6SSuADm7+HEUiwwlP5cSDPceCTdL5pA3aixyqRWxN3qzI7wPqh3v4/5CB9t0BCNLu/yCxwKC03TUw5x6Nk3qTf9YxXL07gKJruWwKDFZzNZzgTvcjv38/+moK9aRO8YMURUgmKmG6pY4V8H0xzulgLhzENt/t8qvhFMIGoOVSjCBTFuew0p4emTGphzyhmUvzV+vsh13OiDrboBRPkZHKnK07RSyqCb02W+hxq70rI4AxvHOabW4qH5c8MKyi9eAXo0uNmovhDF01t1dwpmvlpbljEpoBNIzhgds/KfiY/aing6qRwM2NoiqnPJEY3rdlbRcFTfP+hi6pk59pVHojoPS1Vn2HWfm+iQGWQbYnkDyb06zpcnpNRizZibs7NYRJm/uLpvMTbVGINjywKtt0CquKXZv05Tmf1uV+DzT/kJ4P7tF6DA=
-matrix:
+
+jobs:
   include:
     - python: 3.6
       env: TOXENV=py,codecov
@@ -21,6 +18,9 @@ matrix:
     - stage: deploy
       python: 3.6
       script: .ci/travis-release.sh
+      env:
+        # TWINE_PASSWORD:
+        secure: aFWi+nLxBYHdb0KzZe3L51OqsDbOa5vdNGiz5jD0z0cykly5GnjsIUb4mO1qbFfUufmkDY0y1jLa+41Pk9GUhBdkRYK+a+s0WmfDl6Ns4mZyM3RKQ0fV0nEWK+XxDFeW0kbDC0hKrFO5VIoba9Vi2kM2T7x+Wk6s9Se4EPFajJM4K/PziiWGM3U59FVh56aHJ/2Jqe2xkXDH70bXvNhv4JmkiOHDFfIzBOryZyoIsBJkAA02WvhDk5KiMmlapoDHZdtXoAXijuAM48IQNc7+FlcxcrwzHPKXLeLrkFK1KpZ3vUv6+EbtwjkmSir/wtADv5Fd3k5ita1MO1Drpw9FzZt3AXOv/0Idnt3Wa7jNk0K3/6eRP2Ug+KesZwU19Lccub+gGKlO5wJylWn6m+gU8ZH89rCW0rICk1mIy7jYNO5jZ+ZHXxs/CoiJ98omlx3aCEcf+qLRmUX1vNEziL7S5eWJKDnSH+OoPd0f0B1G8uKOKuvRubn8bKsVN89ALD84FvagyITV7oks7hMy0rDhAauMF7XwU7XMDNCWlNToYKQzfAxVd8Ya0U+IW/MssXcCEci7+6ksrb8QYp1SiUGuFSerPchYRzkWSn4xXKM+SnncqdLZwh89D6yBfw4y06pZRJqktPFtsIkBrprZIYvCzOnWP2Wn37OhCkQ/rfr6nZM=
   allow_failures:
     - python: nightly
 
