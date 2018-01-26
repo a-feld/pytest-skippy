@@ -1,4 +1,5 @@
 import ast
+import os.path
 
 
 class ImportVisitor(ast.NodeVisitor):
@@ -7,22 +8,47 @@ class ImportVisitor(ast.NodeVisitor):
     This NodeVisitor class recursively traverses an AST and records
     all modules that have been imported.
     """
-    def __init__(self):
+    def __init__(self, filename):
         super(ImportVisitor, self).__init__()
         self.imports = {}
+
+        # Store path to filename for deriving relative import paths
+        self.directories, _ = os.path.split(os.path.abspath(filename))
 
     def visit_Import(self, node):
         for module in (_.name for _ in node.names):
             self.imports.setdefault(module, None)
 
     def visit_ImportFrom(self, node):
+
+        # Handle relative imports
+        prepends = []
+        path = self.directories
+        for _ in range(node.level):
+            path, prepend = os.path.split(path)
+            prepends.insert(0, prepend)
+
+        # Build up each package path starting with the package root
+        # Those modules are imported (assumed to be within the path)
+        for idx in range(1, len(prepends)+1):
+            pkg_path = '.'.join(prepends[:idx])
+            self.imports.setdefault(pkg_path, None)
+
+        # This covers the
+        # from . import foo
+        # case
+        if node.module is not None:
+            prepends.append(node.module)
+
+        module = '.'.join(prepends)
+
         # In "from foo import bar" type statements, bar may be a module or
         # simply an attribute of the module foo. Therefore, bar is referred to
         # as a candidate since the type of bar is ambiguous until runtime.
-        candidates = self.imports.get(node.module, None)
+        candidates = self.imports.get(module, None)
         if not candidates:
-            self.imports[node.module] = set()
-            candidates = self.imports[node.module]
+            self.imports[module] = set()
+            candidates = self.imports[module]
 
         for candidate in (_.name for _ in node.names):
             candidates.add(candidate)
@@ -93,7 +119,7 @@ def get_imported_modules(filename):
 
     tree = ast.parse(source)
 
-    visitor = ImportVisitor()
+    visitor = ImportVisitor(filename)
 
     imports = visitor.visit(tree)
 

@@ -102,3 +102,74 @@ pass
 ''')
     with pytest.raises(SyntaxError):
         get_imported_modules(tempfile.name)
+
+
+def test_relative_from_import(tempfile):
+    tempfile(b'''
+from .foo import bar
+
+def foo():
+    pass
+''')
+    modules, confirmed = get_imported_modules(tempfile.name)
+
+    import os.path
+    dirname, filename = os.path.split(tempfile.name)
+    base_module = os.path.basename(dirname)
+    derived_modules = ['.'.join((base_module, _)) for _ in ('foo', 'foo.bar')]
+    expected = [base_module]
+    expected.extend(derived_modules)
+
+    expected_confirmed = {base_module, derived_modules[0]}
+    expected_modules = set(expected)
+
+    assert modules == expected_modules
+    assert confirmed == expected_confirmed
+
+
+def test_multilevel_relative_import(tempfile):
+    tempfile(b'''
+
+
+from ..foo import bar
+
+def foo():
+    pass
+''')
+    modules, confirmed = get_imported_modules(tempfile.name)
+
+    import os.path
+    dirname, filename = os.path.split(tempfile.name)
+    base_module_1 = os.path.basename(dirname)
+    dirname, _ = os.path.split(dirname)
+    base_module_0 = os.path.basename(dirname)
+
+    derived_modules = ['.'.join((base_module_0, base_module_1, _))
+                       for _ in ('foo', 'foo.bar')]
+
+    expected = [base_module_0, base_module_0+'.'+base_module_1]
+    expected.extend(derived_modules)
+
+    expected_confirmed = {expected[0], expected[1], derived_modules[0]}
+    expected_modules = set(expected)
+
+    assert modules == expected_modules
+    assert confirmed == expected_confirmed
+
+
+def test_relative_import_without_submodule(tempfile):
+    tempfile(b'''
+
+# comment for good measure
+from . import foo
+''')
+    modules, confirmed = get_imported_modules(tempfile.name)
+    import os.path
+    dirname, filename = os.path.split(tempfile.name)
+    base_module = os.path.basename(dirname)
+
+    expected_modules = {base_module, base_module+'.foo'}
+    expected_confirmed = {base_module}
+
+    assert modules == expected_modules
+    assert confirmed == expected_confirmed
