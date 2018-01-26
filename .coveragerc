@@ -1,11 +1,11 @@
 [run]
 branch = True
 source =
-    autoskip
+    pytest_skippy
     tests
 
 [paths]
 source =
-    autoskip
-    .tox/*/lib/python*/site-packages/autoskip
-    .tox/pypy/site-packages/autoskip
+    pytest_skippy
+    .tox/*/lib/python*/site-packages/pytest_skippy
+    .tox/pypy/site-packages/pytest_skippy

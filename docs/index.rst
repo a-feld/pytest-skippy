@@ -1,5 +1,5 @@
-PyTest Autoskip
-================
+pytest skippy
+=============
 
 Automatically skip tests that don't need to run!
 
@@ -13,4 +13,4 @@ is skipped.
     Quickstart <quickstart>
     User Guide <userguide>
     Limitations <limitations>
-    API <autoskip>
+    API <pytest_skippy>

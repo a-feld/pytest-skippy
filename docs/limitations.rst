@@ -35,7 +35,7 @@ module. In these cases, ``import foo.bar`` will succeed at runtime.
 However, if ``bar`` is a function, ``import foo.bar`` will fail at runtime.
 This plugin does not attempt to determine the type of ``bar``.
 
-By default, pytest-autoskip assumes that if ``foo.bar`` cannot be located,
+By default, pytest-skippy assumes that if ``foo.bar`` cannot be located,
 ``bar`` must be an attribute of the module ``foo``. As a result, if ``bar`` is
 in fact a missing module, the test will be skipped by default.
 

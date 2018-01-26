@@ -7,7 +7,7 @@ User Guide
 Overview
 #########
 
-pytest-autoskip automatically skips tests that don't need to run!
+pytest-skippy automatically skips tests that don't need to run!
 
 The process for determining if a test needs to run involves
 
@@ -20,13 +20,13 @@ The process for determining if a test needs to run involves
 PyTest Command Line Options
 ############################
 
-``--autoskip``
+``--skippy``
 **************
 (*Default*: ``False``)
 
 Enables this plugin, automatically skipping tests when applicable.
 
-``--autoskip-target-branch``
+``--skippy-target-branch``
 ****************************
 (*Default*: ``origin/master``)
 
@@ -38,11 +38,11 @@ is stored in an environment variable called ``TRAVIS_PULL_REQUEST_BRANCH``.
 
 .. _safe-mode:
 
-``--autoskip-safe``
+``--skippy-safe``
 *******************
 (*Default*: ``False``)
 
-Safe mode changes the behavior of the autoskip plugin so that any import that
+Safe mode changes the behavior of the skippy plugin so that any import that
 cannot be resolved forces a test run.
 
 This makes sure that if a module is missing for any reason the test that would

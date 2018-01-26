@@ -1,7 +1,7 @@
 import os
 import pytest
 import tempfile as _tempfile
-from autoskip.parse import get_imported_modules
+from pytest_skippy.parse import get_imported_modules
 
 
 @pytest.fixture()

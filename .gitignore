@@ -108,4 +108,4 @@ venv.bak/
 
 Pipfile.lock
 
-autoskip/_version.py
+pytest_skippy/_version.py

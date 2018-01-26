@@ -22,15 +22,15 @@ def test_plugin(testdir):
 
     # Without any changes, the test should be skipped
     result = testdir.runpytest(
-            "--autoskip", "--autoskip-target-branch", "master")
+            "--skippy", "--skippy-target-branch", "master")
     result.assert_outcomes(skipped=1)
 
     # In safe mode, it should run since a from import is used to import the
     # function
     result = testdir.runpytest(
-            "--autoskip",
-            "--autoskip-target-branch", "master",
-            "--autoskip-safe")
+            "--skippy",
+            "--skippy-target-branch", "master",
+            "--skippy-safe")
     result.assert_outcomes(passed=1)
 
     # Change an imported file
@@ -43,10 +43,10 @@ def test_plugin(testdir):
     repo.index.add([str(f_core)])
     repo.index.commit("Modify core.")
 
-    # With changes, autoskip should run the test
+    # With changes, skippy should run the test
     result = testdir.runpytest(
-            "--autoskip",
-            "--autoskip-target-branch", "master")
+            "--skippy",
+            "--skippy-target-branch", "master")
     result.assert_outcomes(passed=1)
 
 
@@ -58,6 +58,6 @@ def test_no_git_repo(testdir):
 
     # Test will run by default if there's no git repo
     result = testdir.runpytest(
-            "--autoskip",
-            "--autoskip-target-branch", "master")
+            "--skippy",
+            "--skippy-target-branch", "master")
     result.assert_outcomes(passed=1)

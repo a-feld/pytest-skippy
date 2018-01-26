@@ -18,7 +18,7 @@ Installation
 
 .. code:: bash
 
-    pip install pytest-autoskip
+    pip install pytest-skippy
 
 Usage
 #####
@@ -30,4 +30,4 @@ change the target branch when getting started.
 
 .. code:: bash
 
-    py.test --autoskip
+    py.test --skippy

@@ -1,4 +1,4 @@
-from autoskip.util import flatten_imports
+from pytest_skippy.util import flatten_imports
 
 
 def test_module_reconvergence():

@@ -1,5 +1,5 @@
 import tempfile
-import autoskip.imp as imp
+import pytest_skippy.imp as imp
 
 
 def test_bad_relative_import():
@@ -8,7 +8,7 @@ def test_bad_relative_import():
 
 
 def test_non_existent_module():
-    result = imp.convert_module_to_filename('autoskip.dog.cat')
+    result = imp.convert_module_to_filename('pytest_skippy.dog.cat')
     assert result is None
 
 

@@ -1,5 +1,5 @@
 import pytest
-from autoskip.core import Autoskip
+from pytest_skippy.core import Skippy
 
 
 def fail_on_call(*args, **kwargs):
@@ -14,7 +14,7 @@ def module_to_file(d):
 
 
 @pytest.fixture
-def autoskip(request):
+def skippy(request):
     _module_to_file = request.node.get_marker('module_to_file')
     if _module_to_file:
         _module_to_file = _module_to_file.args[0]
@@ -36,9 +36,9 @@ def autoskip(request):
             self.called.add(imported_filename)
             return traversal_values[imported_filename]
     else:
-        _prepare_traversal = Autoskip.prepare_traversal
+        _prepare_traversal = Skippy.prepare_traversal
 
-    class _Autoskip(Autoskip):
+    class _Skippy(Skippy):
         prepare_traversal = _prepare_traversal
 
         if _module_to_file:
@@ -55,84 +55,84 @@ def autoskip(request):
     safe_mode = request.node.get_marker('safe_mode')
     safe_mode = safe_mode or False
 
-    autoskip = _Autoskip(changed_files, safe_mode=safe_mode)
-    return autoskip
+    skippy = _Skippy(changed_files, safe_mode=safe_mode)
+    return skippy
 
 
-def test_module_in_should_run(autoskip):
+def test_module_in_should_run(skippy):
     # set foo as a module to run
-    autoskip.modules_to_run = {'foo'}
+    skippy.modules_to_run = {'foo'}
 
-    # autoskip should run a module that's marked as needing a run
-    assert autoskip.should_run('foo') is True
-    assert 'foo' in autoskip.modules_to_run
+    # skippy should run a module that's marked as needing a run
+    assert skippy.should_run('foo') is True
+    assert 'foo' in skippy.modules_to_run
 
 
 @pytest.mark.module_to_file(False)
-def test_ignored_module_is_not_traversed(autoskip):
+def test_ignored_module_is_not_traversed(skippy):
     # os should be an ignored module in all cases
     # If any attempt to load the module is made, we should fail
-    assert autoskip.should_run('os') is False
+    assert skippy.should_run('os') is False
 
 
 @pytest.mark.module_to_file({'foo': '/foo.py'})
 @pytest.mark.changed_files({'/foo.py'})
-def test_changed_file_causes_test_run(autoskip):
+def test_changed_file_causes_test_run(skippy):
     # a module that maps to a changed file should cause a test run
-    assert autoskip.should_run('foo') is True
-    assert 'foo' in autoskip.modules_to_run
+    assert skippy.should_run('foo') is True
+    assert 'foo' in skippy.modules_to_run
 
 
 @pytest.mark.safe_mode
-def test_missing_file_causes_run_in_safe_mode(autoskip):
+def test_missing_file_causes_run_in_safe_mode(skippy):
     # Safe mode should force a test run when a module->file mapping cannot be
     # established
-    assert autoskip.should_run('foo') is True
-    assert 'foo' in autoskip.modules_to_run
+    assert skippy.should_run('foo') is True
+    assert 'foo' in skippy.modules_to_run
 
 
 @pytest.mark.parametrize('confirmed', [True, False])
-def test_missing_module(confirmed, autoskip):
+def test_missing_module(confirmed, skippy):
     if confirmed:
         # If we're not in safe mode, a missing module that's a confirmed module
         # should force a test run
-        autoskip.confirmed_modules = {'foo'}
-        assert autoskip.should_run('foo') is True
-        assert 'foo' in autoskip.modules_to_run
+        skippy.confirmed_modules = {'foo'}
+        assert skippy.should_run('foo') is True
+        assert 'foo' in skippy.modules_to_run
     else:
         # If we're not in safe mode, a missing module that's not a confirmed
         # module shouldn't cause a test run
-        assert autoskip.should_run('foo') is False
+        assert skippy.should_run('foo') is False
 
 
 @pytest.mark.fake_traversal({'/foo.py': {'foo'}})
-def test_circular_import(autoskip):
-    assert autoskip.should_run('foo') is False
+def test_circular_import(skippy):
+    assert skippy.should_run('foo') is False
 
 
 @pytest.mark.module_to_file({'foo': '/foo.py', 'bar': '/bar.py'})
 @pytest.mark.changed_files({'/bar.py'})
 @pytest.mark.fake_traversal({'/foo.py': {'bar'}})  # foo imports bar
-def test_submodule_causes_run(autoskip):
+def test_submodule_causes_run(skippy):
     # since bar.py is changed and in the import tree, the test should run
-    assert autoskip.should_run('foo') is True
+    assert skippy.should_run('foo') is True
 
     # Both foo and bar should be in modules_to_run now
-    assert autoskip.modules_to_run == {'foo', 'bar'}
+    assert skippy.modules_to_run == {'foo', 'bar'}
 
 
-def test_prepare_traversal_updates_confirmed_modules(autoskip):
-    assert len(autoskip.confirmed_modules) == 0
+def test_prepare_traversal_updates_confirmed_modules(skippy):
+    assert len(skippy.confirmed_modules) == 0
 
     import os
     _file = os.__file__
     # use only the raw python file
     if _file.endswith('.pyc'):
         _file = _file[:-1]
-    autoskip.prepare_traversal(_file)
+    skippy.prepare_traversal(_file)
 
     # There has to be at least 1 confirmed module in there...
-    assert len(autoskip.confirmed_modules) > 0
+    assert len(skippy.confirmed_modules) > 0
 
 
 #  test modules_to_run is updated by complex graph traversal
@@ -165,7 +165,7 @@ def test_prepare_traversal_updates_confirmed_modules(autoskip):
     ('d.py', {'A', 'D'}),
     ('e.py', {'A', 'D', 'E'}),
 ])
-def test_traversal_logic(changed_file, modules_to_run, autoskip):
-    autoskip.changed_files = {changed_file}
-    assert autoskip.should_run('A') is True
-    assert autoskip.modules_to_run == modules_to_run
+def test_traversal_logic(changed_file, modules_to_run, skippy):
+    skippy.changed_files = {changed_file}
+    assert skippy.should_run('A') is True
+    assert skippy.modules_to_run == modules_to_run

@@ -36,13 +36,13 @@ class Tox(TestCommand):
 
 
 setup(
-    name='pytest-autoskip',
+    name='pytest-skippy',
     setup_requires=['setuptools_scm'],
-    use_scm_version={'write_to': 'autoskip/_version.py'},
+    use_scm_version={'write_to': 'pytest_skippy/_version.py'},
     description="Automatically skip tests that don't need to run!",
     long_description=long_description,
     license='MIT',
-    url='https://github.com/a-feld/pytest-autoskip',
+    url='https://github.com/a-feld/pytest-skippy',
     author='Allan Feldman',
     author_email='allan.d.feldman@gmail.com',
     classifiers=[
@@ -68,7 +68,7 @@ setup(
     },
     entry_points={
         'pytest11': [
-            'autoskip=autoskip.plugin',
+            'skippy=pytest_skippy.plugin',
         ],
     },
     cmdclass={'test': Tox},

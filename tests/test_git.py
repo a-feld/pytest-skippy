@@ -1,6 +1,6 @@
 import pytest
 
-from autoskip.git import detect_changed_files
+from pytest_skippy.git import detect_changed_files
 
 
 @pytest.fixture()

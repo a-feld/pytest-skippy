@@ -1,16 +1,16 @@
 from stdlib_list import stdlib_list
 
-import autoskip.util as util
-import autoskip.imp as imp
-import autoskip.parse as parse
+import pytest_skippy.util as util
+import pytest_skippy.imp as imp
+import pytest_skippy.parse as parse
 
 from collections import deque
 
 IGNORED_MODULES = set(['pytest']) | set(stdlib_list())
 
 
-class Autoskip(object):
-    """Core implementation of autoskip logic
+class Skippy(object):
+    """Core implementation of skippy logic
 
     This object maintains some amount of traversal state between
     :py:func:`should_run` calls in order to optimize control flow.
@@ -86,7 +86,7 @@ class Autoskip(object):
     def should_run(self, root_module):
         """Determine if a test should run for a given module
 
-        This is the primary interface for autoskip. Autoskip will execute an
+        This is the primary interface for skippy. Skippy will execute an
         import graph traversal and make a decision to run / skip the test. A
         test will be marked as needing to run if any of the files in the import
         graph have been modified.
