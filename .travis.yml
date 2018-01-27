@@ -17,10 +17,17 @@ jobs:
 
     - stage: deploy
       python: 3.6
-      script: .ci/travis-release.sh
-      env:
-        # TWINE_PASSWORD:
-        secure: aFWi+nLxBYHdb0KzZe3L51OqsDbOa5vdNGiz5jD0z0cykly5GnjsIUb4mO1qbFfUufmkDY0y1jLa+41Pk9GUhBdkRYK+a+s0WmfDl6Ns4mZyM3RKQ0fV0nEWK+XxDFeW0kbDC0hKrFO5VIoba9Vi2kM2T7x+Wk6s9Se4EPFajJM4K/PziiWGM3U59FVh56aHJ/2Jqe2xkXDH70bXvNhv4JmkiOHDFfIzBOryZyoIsBJkAA02WvhDk5KiMmlapoDHZdtXoAXijuAM48IQNc7+FlcxcrwzHPKXLeLrkFK1KpZ3vUv6+EbtwjkmSir/wtADv5Fd3k5ita1MO1Drpw9FzZt3AXOv/0Idnt3Wa7jNk0K3/6eRP2Ug+KesZwU19Lccub+gGKlO5wJylWn6m+gU8ZH89rCW0rICk1mIy7jYNO5jZ+ZHXxs/CoiJ98omlx3aCEcf+qLRmUX1vNEziL7S5eWJKDnSH+OoPd0f0B1G8uKOKuvRubn8bKsVN89ALD84FvagyITV7oks7hMy0rDhAauMF7XwU7XMDNCWlNToYKQzfAxVd8Ya0U+IW/MssXcCEci7+6ksrb8QYp1SiUGuFSerPchYRzkWSn4xXKM+SnncqdLZwh89D6yBfw4y06pZRJqktPFtsIkBrprZIYvCzOnWP2Wn37OhCkQ/rfr6nZM=
+      script: skip
+      install: skip
+      deploy:
+        distributions: sdist bdist_wheel
+        provider: pypi
+        user: pypibot98b19
+        on:
+          tags: true
+          all_branches: true
+        password:
+          secure: Jcqh6o/ZjhtotmNk7LkhOwEdFcxR6GI3Rr6nJbEujsty7RB6qmaGeMoIF4WsKRnkB9v3nKcwmukUuqYI38+NCQewkuIh3YV3YbXhtWbnO+I2FaZW5SGalTEN5gMGAhEf+hCaM4VbRRwDsaRUIsBFFERaPx15iVq6xoJd297YPBeZuBO8ePssd3yUR4ympTf0A3h8AY2jzzj689KGaDrXfp30IlobtpgjRSXsomKdIU14RA+T8uw4F1VB8M2r13k8kkgV6D+xDRUQ/C6gxQcIRBra7AWvnZ6n2RmiV5nHlK5BaJYga4JbGf8EOdyIEQl050vpjmc7s9EAgoShITR9bT6/PKlIbp1LQgTan2yGsEkFS6MqjtsMSDgAvDP2MSY9tM2dVswJDXxP1/2KcVYd/C8Ia/L7yBCeNCV28U6KjySajGaHu/zG31NQIwrrsK5cyRhf6HmLeNgl45gVNXzzUYrbO/q6AFAkFrD9WLCiIKFR+rayLKTOILtK4wHJwjBwJUk1Boy+t5JXEF1tk2Kzbf3bC2je1QVKIY5ALAmhd15Bp4YhwX6JOA1c1Aiha4bbIFw3I9sp0Zv1YaUfZvEiMlI8k5bf5aeAMESclz3DplX7k16uXEa0P/fcZP/6C60n+swLVaU7CBozhQNojoqAu+0QItUbut6V6SYaGx5pdf8=
   allow_failures:
     - python: nightly
 
