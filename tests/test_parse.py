@@ -1,5 +1,6 @@
 import os
 import pytest
+import shutil
 import tempfile as _tempfile
 from pytest_skippy.parse import get_imported_modules
 
@@ -168,3 +169,31 @@ from . import foo
 
     assert modules == expected_modules
     assert confirmed == expected_confirmed
+
+
+def test_relative_import_converts_with_sys_path(monkeypatch):
+    try:
+        base_dir = _tempfile.mkdtemp()
+        pkg_dir = _tempfile.mkdtemp(dir=str(base_dir))
+        subpkg_dir = _tempfile.mkdtemp(dir=pkg_dir)
+        with _tempfile.NamedTemporaryFile(delete=False, dir=subpkg_dir) as f:
+            f.write(b'''
+from . import bar
+''')
+
+        # Add the directory containing the directory to the sys.path
+        import os.path
+        monkeypatch.syspath_prepend(base_dir)
+
+        pkg_name = os.path.basename(pkg_dir)
+        subpkg_name = os.path.basename(subpkg_dir)
+
+        # Get the imported modules
+        modules, confirmed = get_imported_modules(f.name)
+    finally:
+        shutil.rmtree(base_dir)
+
+    # Check that the absolute path contains the root package name
+    expected_confirmed = {pkg_name, pkg_name+'.'+subpkg_name}
+    assert confirmed == expected_confirmed
+    assert modules == expected_confirmed | {pkg_name+'.'+subpkg_name+'.bar'}
