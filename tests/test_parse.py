@@ -139,19 +139,14 @@ def foo():
     modules, confirmed = get_imported_modules(tempfile.name)
 
     import os.path
-    dirname, filename = os.path.split(tempfile.name)
-    base_module_1 = os.path.basename(dirname)
-    dirname, _ = os.path.split(dirname)
-    base_module_0 = os.path.basename(dirname)
+    base_dir, _ = os.path.split(os.path.split(tempfile.name)[0])
+    base_module = os.path.basename(base_dir)
 
-    derived_modules = ['.'.join((base_module_0, base_module_1, _))
-                       for _ in ('foo', 'foo.bar')]
+    expected_module = base_module+'.foo'
+    candidate_module = expected_module+'.bar'
 
-    expected = [base_module_0, base_module_0+'.'+base_module_1]
-    expected.extend(derived_modules)
-
-    expected_confirmed = {expected[0], expected[1], derived_modules[0]}
-    expected_modules = set(expected)
+    expected_modules = {base_module, expected_module, candidate_module}
+    expected_confirmed = {base_module, expected_module}
 
     assert modules == expected_modules
     assert confirmed == expected_confirmed

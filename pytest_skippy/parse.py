@@ -1,5 +1,6 @@
 import ast
 import os.path
+import sys
 
 
 class ImportVisitor(ast.NodeVisitor):
@@ -21,26 +22,44 @@ class ImportVisitor(ast.NodeVisitor):
 
     def visit_ImportFrom(self, node):
 
-        # Handle relative imports
-        prepends = []
-        path = self.directories
-        for _ in range(node.level):
-            path, prepend = os.path.split(path)
-            prepends.insert(0, prepend)
+        module = node.module
+        if node.level:
+            # Handle relative imports
+            path = self.directories
+            for _ in range(node.level):
+                path, prepend = os.path.split(path)
 
-        # Build up each package path starting with the package root
-        # Those modules are imported (assumed to be within the path)
-        for idx in range(1, len(prepends)+1):
-            pkg_path = '.'.join(prepends[:idx])
-            self.imports.setdefault(pkg_path, None)
+            # After resolving the base module, prepend it to the module name
+            base_module = prepend
 
-        # This covers the
-        # from . import foo
-        # case
-        if node.module is not None:
-            prepends.append(node.module)
+            # Attempt to resolve package relative to sys.path
+            prepends = []
+            while prepend:
+                if path in sys.path:
+                    break
+                path, prepend = os.path.split(path)
+                prepends.insert(0, prepend)
+            else:
+                # The module is not relative to anything in the sys.path
+                prepends = []
 
-        module = '.'.join(prepends)
+            # Add the base module into the resolved module name
+            prepends.append(base_module)
+
+            # Build up each package path starting with the package root
+            # Those modules are imported (detected as being within the sys.path
+            # or assumed to be modules)
+            for idx in range(1, len(prepends)+1):
+                pkg_path = '.'.join(prepends[:idx])
+                self.imports.setdefault(pkg_path, None)
+
+            # This covers the
+            # from . import foo
+            # case
+            if node.module is not None:
+                prepends.append(node.module)
+
+            module = '.'.join(prepends)
 
         # In "from foo import bar" type statements, bar may be a module or
         # simply an attribute of the module foo. Therefore, bar is referred to
